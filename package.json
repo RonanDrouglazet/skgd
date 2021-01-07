@@ -1,0 +1,26 @@
+{
+  "name": "skgd-website-v2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.html",
+  "scripts": {
+    "compile": "parcel build index.html",
+    "dev": "parcel index.html",
+    "deploy": "cp dist/* ../skgd-website-v2/ && git commit -am \"update\" && git push"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/simple-acces/skgd-website-v2.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/simple-acces/skgd-website-v2/issues"
+  },
+  "homepage": "https://github.com/simple-acces/skgd-website-v2#readme",
+  "devDependencies": {
+    "countup.js": "^2.0.7",
+    "parcel": "1.12.4",
+    "sass": "1.32.0"
+  }
+}

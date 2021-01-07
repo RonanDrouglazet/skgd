@@ -1,0 +1,162 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700&display=swap");
+
+html,
+body {
+  margin: 0;
+  font-family: "Montserrat";
+  font-weight: 500;
+  scroll-behavior: smooth;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.white {
+  background-color: white;
+  color: black;
+}
+
+.black {
+  background-color: black;
+  color: white;
+}
+
+.separator {
+  width: 50%;
+  margin: 50px auto;
+  height: 2px;
+}
+
+h1 {
+  text-align: center;
+  width: 100%;
+  font-weight: 500;
+  font-size: 40px;
+}
+
+$header-height: 60px;
+$size-containers: 80%;
+
+header {
+  height: $header-height;
+  width: 100%;
+
+  .container-menu {
+    width: $size-containers;
+    height: 100%;
+    margin: auto;
+    display: flex;
+    align-items: center;
+
+    .menu {
+      width: 100%;
+      height: 100%;
+      line-height: $header-height;
+      cursor: pointer;
+      text-align: center;
+
+      &:hover {
+        font-weight: 700;
+      }
+    }
+  }
+}
+
+body > header {
+  position: fixed;
+  z-index: 2;
+  top: 0;
+  left: 0;
+}
+
+section#accueil {
+  width: 100%;
+  height: 100vh;
+
+  position: relative;
+  z-index: 3;
+
+  .baseline-container {
+    width: 100%;
+    height: calc(100% - #{$header-height});
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .baseline {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  article {
+    font-size: 30px;
+    text-align: center;
+  }
+
+  img {
+    width: 90%;
+  }
+
+  header {
+    position: relative;
+    z-index: 1;
+  }
+}
+
+section#agence {
+  width: 100%;
+  height: 100vh;
+
+  .container-details {
+    display: flex;
+    justify-content: space-between;
+    width: $size-containers;
+    margin: auto;
+  }
+
+  h1 {
+    padding: 10vh 0;
+    margin: 0;
+  }
+
+  .details {
+    text-align: center;
+    font-size: 24px;
+    font-weight: 300;
+
+    .number {
+      --size-detail: 30vh;
+      width: var(--size-detail);
+      max-width: 20vw;
+      height: var(--size-detail);
+      max-height: 20vw;
+      background: white;
+      border-radius: var(--size-detail);
+      font-size: calc(8vh + 5vw);
+      color: black;
+      font-weight: 300;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: auto auto 50px auto;
+    }
+
+    .number.special {
+      font-weight: 700;
+      background-color: #fedb00;
+    }
+
+    h2 {
+      font-size: 24px;
+    }
+
+    p {
+      width: 80%;
+      margin: auto;
+    }
+  }
+}
