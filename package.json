@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.html",
   "scripts": {
-    "compile": "parcel build index.html",
+    "compile": "parcel build index.html --public-url ./",
     "dev": "parcel index.html",
-    "deploy": "cp dist/* ../skgd-website-v2/ && git commit -am \"update\" && git push"
+    "deploy": "rm ../skgd-website-v2/*; cp dist/* ../skgd-website-v2/ && git commit -am \"update\" && git push"
   },
   "repository": {
     "type": "git",
