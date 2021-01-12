@@ -37,7 +37,7 @@ h1 {
 }
 
 $header-height: 60px;
-$size-containers: 80%;
+$size-containers: 90%;
 
 header {
   height: $header-height;
@@ -69,6 +69,11 @@ body > header {
   z-index: 2;
   top: 0;
   left: 0;
+}
+
+h1 {
+  padding: 10vh 0;
+  margin: 0;
 }
 
 section#accueil {
@@ -118,24 +123,19 @@ section#agence {
     margin: auto;
   }
 
-  h1 {
-    padding: 10vh 0;
-    margin: 0;
-  }
-
   .details {
     text-align: center;
     font-size: 24px;
     font-weight: 300;
 
     .number {
-      --size-detail: 30vh;
-      width: var(--size-detail);
+      $size-detail: 30vh;
+      width: $size-detail;
       max-width: 20vw;
-      height: var(--size-detail);
+      height: $size-detail;
       max-height: 20vw;
       background: white;
-      border-radius: var(--size-detail);
+      border-radius: $size-detail;
       font-size: calc(8vh + 5vw);
       color: black;
       font-weight: 300;
@@ -158,5 +158,121 @@ section#agence {
       width: 80%;
       margin: auto;
     }
+  }
+}
+
+section#competences {
+  $font-size: 20px;
+
+  .container {
+    width: 80%;
+    margin: auto;
+
+    article {
+      display: inline-block;
+      width: calc(100% / 3 - 3px);
+      text-align: center;
+      margin-bottom: 70px;
+
+      h2 {
+        font-size: $font-size;
+      }
+
+      p {
+        width: 50%;
+        margin: auto;
+        font-weight: 300;
+        font-size: $font-size;
+      }
+    }
+  }
+}
+
+section#contact {
+  $font-size: 30px;
+
+  .container {
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin: auto;
+    padding-bottom: 90px;
+
+    article {
+      width: 40%;
+      font-size: $font-size;
+      font-weight: 300;
+      text-align: center;
+
+      h2 {
+        font-size: $font-size;
+      }
+
+      .social img {
+        cursor: pointer;
+        transition: opacity 0.3s ease-in-out;
+
+        &:hover {
+          opacity: 0.8;
+        }
+      }
+
+      .button {
+        background-color: white;
+        padding: 10px 20px;
+        text-align: center;
+        font-size: 20px;
+        color: black;
+        width: fit-content;
+        margin: 20px auto 0 auto;
+        cursor: pointer;
+        transition: opacity 0.3s ease-in-out;
+
+        &:hover {
+          opacity: 0.8;
+        }
+      }
+    }
+
+    > img {
+      width: 545px;
+      height: 331px;
+    }
+  }
+}
+
+section#menu-bis {
+  .container {
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30px 0;
+    margin: auto;
+
+    .menu {
+      height: 210px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-evenly;
+      align-items: flex-end;
+
+      div {
+        cursor: pointer;
+        &:hover {
+          font-weight: bold;
+        }
+      }
+    }
+  }
+}
+
+footer {
+  background-color: #fee051;
+  p {
+    text-align: center;
+    margin: 0;
+    padding: 20px;
   }
 }
