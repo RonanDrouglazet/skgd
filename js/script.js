@@ -3,9 +3,9 @@ import { CountUp } from "countUp.js";
 const countups = (goUp) =>
   [
     ["n1", 6],
-    ["n2", 10],
-    ["n3", 5],
-    ["n4", 50],
+    ["n2", 15],
+    ["n3", 6],
+    ["n4", 6],
   ].map(
     ([el, n]) =>
       new CountUp(el, goUp ? n : 0, {
@@ -28,3 +28,24 @@ const initNumbers = () => {
 addEventListener("load", () => {
   initNumbers();
 });
+
+window.initMap = () => {
+  const coo = {
+    lat: 48.8905084,
+    lng: 2.3313485,
+  };
+  const map = new google.maps.Map(document.querySelector(".map"), {
+    center: coo,
+    zoom: 17,
+    mapTypeControl: false,
+    disableDefaultUI: true,
+  });
+
+  const marker = new google.maps.Marker({
+    position: coo,
+    map,
+    title: "SKGD-creation",
+    animation: google.maps.Animation.DROP,
+  });
+  marker.setMap(map);
+};
