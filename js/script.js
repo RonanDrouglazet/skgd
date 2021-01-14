@@ -9,7 +9,7 @@ const countups = (goUp) =>
   ].map(
     ([el, n]) =>
       new CountUp(el, goUp ? n : 0, {
-        duration: 1,
+        duration: 2,
         startVal: goUp ? 0 : n,
       })
   );

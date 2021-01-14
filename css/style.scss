@@ -148,11 +148,7 @@ section#agence {
       justify-content: center;
       align-items: center;
       margin: auto auto 50px auto;
-    }
-
-    .number.special {
-      font-weight: 700;
-      background-color: #fedb00;
+      transition: font-weight 0.2s ease-in-out;
     }
 
     h2 {
@@ -162,6 +158,11 @@ section#agence {
     p {
       width: 85%;
       margin: auto;
+    }
+
+    &:hover .number {
+      font-weight: 700;
+      background-color: #fedb00;
     }
   }
 }
