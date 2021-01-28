@@ -14,19 +14,69 @@ const countups = (goUp) =>
       })
   );
 
-const observer = new IntersectionObserver(
-  ([{ isIntersecting }]) => countups(isIntersecting).forEach((c) => c.start()),
+const observerCountsUp = new IntersectionObserver(
+  ([{ isIntersecting }]) => {
+    countups(isIntersecting).forEach((c) => c.start());
+    if (isIntersecting) {
+      triggerBarOn(document.querySelector("section#agence"));
+    }
+  },
   {
     threshold: 1,
   }
 );
 
-const initNumbers = () => {
-  observer.observe(document.querySelector("#n1"));
+const showBarOn = (menu) => menu.forEach((_) => _.classList.add("activated"));
+
+const hideBarOn = (menu) =>
+  menu.forEach((_) => _.classList.remove("activated"));
+
+const triggerBarOn = (target) => {
+  const targetedMenu = document.querySelectorAll(
+    `header a[href="#${target.id}"] .menu`
+  );
+  showBarOn(targetedMenu);
+  if (targetedMenu.length) {
+    hideBarOn(
+      document.querySelectorAll(`header a:not([href="#${target.id}"]) .menu`)
+    );
+  }
+};
+
+const observerSections = new IntersectionObserver(
+  ([{ isIntersecting, target }]) => {
+    if (isIntersecting) {
+      triggerBarOn(target);
+    }
+  },
+  {
+    threshold: 0.5,
+  }
+);
+
+const observerFixMenuPainting = new IntersectionObserver(
+  ([{ isIntersecting, target }]) => {
+    if (isIntersecting) {
+      const header = document.querySelector("body > header");
+      header.style.visibility = "hidden";
+      setTimeout(() => (header.style.visibility = "visible"), 0);
+    }
+  },
+  {
+    threshold: 0.1,
+  }
+);
+
+const initObservers = () => {
+  observerCountsUp.observe(document.querySelector("#n1"));
+  observerFixMenuPainting.observe(document.querySelector("section#accueil"));
+  document
+    .querySelectorAll("section")
+    .forEach((section) => observerSections.observe(section));
 };
 
 addEventListener("load", () => {
-  initNumbers();
+  initObservers();
 });
 
 window.initMap = () => {

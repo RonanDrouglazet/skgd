@@ -57,15 +57,29 @@ header {
     align-items: center;
 
     .menu {
-      width: 100%;
+      width: fit-content;
       height: 100%;
       line-height: $header-height;
       cursor: pointer;
       text-align: center;
+      position: relative;
+      margin: auto;
+    }
 
-      &:hover {
-        font-weight: 700;
-      }
+    .menu:after {
+      content: "";
+      border-bottom: 2px solid black;
+      width: 56%;
+      transition: transform 0.2s ease-in-out;
+      transform: scaleX(0);
+      position: absolute;
+      left: 22%;
+      bottom: 20%;
+    }
+
+    .menu:hover::after,
+    .menu.activated::after {
+      transform: scaleX(1);
     }
 
     a {
@@ -250,6 +264,10 @@ section#contact {
   $font-size-md: 18px;
   $height: 331px;
 
+  h1 {
+    padding: 5vh 0;
+  }
+
   .container {
     width: 80%;
     display: flex;
@@ -310,10 +328,6 @@ section#contact {
     .map {
       width: 545px;
       height: $height;
-    }
-
-    h1 {
-      padding: 5vh 0;
     }
   }
 }
