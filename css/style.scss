@@ -77,7 +77,7 @@ header {
       bottom: 20%;
     }
 
-    .menu:hover::after,
+    a:hover .menu::after,
     .menu.activated::after {
       transform: scaleX(1);
     }
