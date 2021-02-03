@@ -1,4 +1,5 @@
 import { CountUp } from "countUp.js";
+import Isotope from "isotope-layout";
 
 const countups = (goUp) =>
   [
@@ -75,8 +76,29 @@ const initObservers = () => {
     .forEach((section) => observerSections.observe(section));
 };
 
+const initRealisations = () => {
+  const grid = new Isotope(".grid-rea", {
+    itemSelector: ".grid-element",
+    layoutMode: "fitRows",
+    stagger: 100,
+  });
+  document.querySelectorAll("#realisations header .menu").forEach((menu) => {
+    menu.addEventListener("click", ({ target }) => {
+      const filter = target.getAttribute("data-filter");
+      document
+        .querySelectorAll("#realisations header .menu.activated")
+        .forEach((_) => _.classList.remove("activated"));
+      target.classList.add("activated");
+      grid.arrange({
+        filter,
+      });
+    });
+  });
+};
+
 addEventListener("load", () => {
   initObservers();
+  initRealisations();
 });
 
 window.initMap = () => {
