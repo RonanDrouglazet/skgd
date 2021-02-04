@@ -245,9 +245,47 @@ section#realisations {
 
   .grid-element {
     width: calc(100% / 3);
+    cursor: pointer;
+
     img {
       width: 100%;
       display: block;
+    }
+
+    .overlay {
+      $font-size: 24px;
+      opacity: 0;
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+      transform: scale(0.5);
+      background-color: #fee051;
+      text-align: center;
+      font-size: $font-size;
+
+      h3 {
+        font-size: $font-size;
+        margin: 0;
+      }
+
+      .divider {
+        width: 15px;
+        height: 4px;
+        margin: 15px auto;
+        background-color: black;
+      }
+    }
+
+    &:hover .overlay {
+      opacity: 1;
+      transform: scale(1);
     }
   }
 }
