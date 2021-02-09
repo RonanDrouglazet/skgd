@@ -81,7 +81,9 @@ const initRealisations = () => {
     itemSelector: ".grid-element",
     layoutMode: "fitRows",
     stagger: 100,
+    filter: ".all",
   });
+
   document.querySelectorAll("#realisations header .menu").forEach((menu) => {
     menu.addEventListener("click", ({ target }) => {
       const filter = target.getAttribute("data-filter");
@@ -94,6 +96,24 @@ const initRealisations = () => {
       });
     });
   });
+
+  document.querySelectorAll(".grid-element").forEach((_) =>
+    _.addEventListener(
+      "click",
+      ({ currentTarget }) => {
+        console.log("caca");
+        currentTarget.classList.add("activated");
+      },
+      { capture: true }
+    )
+  );
+
+  document.querySelectorAll(".opened .close").forEach((_) =>
+    _.addEventListener("click", ({ currentTarget }) => {
+      console.log(currentTarget.parentElement.parentElement.classList.remove);
+      currentTarget.parentElement.parentElement.classList.remove("activated");
+    })
+  );
 };
 
 addEventListener("load", () => {

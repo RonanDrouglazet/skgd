@@ -287,6 +287,38 @@ section#realisations {
       opacity: 1;
       transform: scale(1);
     }
+
+    .opened {
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      opacity: 0;
+      z-index: 2;
+      border: 10px solid rgba(0, 0, 0, 0.8);
+      background-size: contain;
+      background-clip: padding-box;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-color: rgba(0, 0, 0, 0.8);
+      transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+      transform: scale(0);
+
+      .close {
+        position: fixed;
+        top: 0;
+        right: 0;
+        color: white;
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+        font-size: 25px;
+      }
+    }
+
+    &.activated .opened {
+      opacity: 1;
+      transform: scale(1);
+    }
   }
 }
 
