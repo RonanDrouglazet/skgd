@@ -3,7 +3,7 @@ import Isotope from "isotope-layout";
 
 const countups = (goUp) =>
   [
-    ["n1", 6],
+    ["n1", new Date().getFullYear() - 2014],
     ["n2", 15],
     ["n3", 6],
     ["n4", 6],
@@ -101,7 +101,6 @@ const initRealisations = () => {
     _.addEventListener(
       "click",
       ({ currentTarget }) => {
-        console.log("caca");
         currentTarget.classList.add("activated");
       },
       { capture: true }
