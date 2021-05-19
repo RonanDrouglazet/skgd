@@ -76,12 +76,13 @@ const initObservers = () => {
     .forEach((section) => observerSections.observe(section));
 };
 
+let grid;
 const initRealisations = () => {
-  const grid = new Isotope(".grid-rea", {
+  grid = new Isotope(".grid-rea", {
     itemSelector: ".grid-element",
     layoutMode: "fitRows",
     stagger: 100,
-    filter: ".all",
+    filter: ".init",
   });
 
   document.querySelectorAll("#realisations header .menu").forEach((menu) => {
@@ -109,7 +110,6 @@ const initRealisations = () => {
 
   document.querySelectorAll(".opened .close").forEach((_) =>
     _.addEventListener("click", ({ currentTarget }) => {
-      console.log(currentTarget.parentElement.parentElement.classList.remove);
       currentTarget.parentElement.parentElement.classList.remove("activated");
     })
   );
@@ -140,3 +140,116 @@ window.initMap = () => {
   });
   marker.setMap(map);
 };
+
+window.sabo_plugins = [
+  {
+    name: "Ajouter / modifier un projet",
+    icon: "mdi-account-multiple-plus",
+    type: "formList",
+    listForms() {
+      const elements = Array.from(
+        document.querySelectorAll(".grid-rea .grid-element")
+      );
+      return elements.map((element) => {
+        const title = element.querySelector("h3").innerText.trim();
+        const image = element.querySelector("img").src;
+        const opened = element
+          .querySelector(".opened")
+          ?.style.backgroundImage?.match(/url\("(.+)"\)/i)?.[1];
+        const categorie = element.querySelector(".categorie").innerText.trim();
+        const isHome = element.classList.contains("init");
+
+        return {
+          title,
+          image,
+          dom: element,
+          fields: {
+            accueil: {
+              type: "checkbox",
+              value: isHome,
+              label: "afficher cette réalisation sur la page d'accueil",
+              order: 0,
+            },
+            categorie: {
+              type: "select",
+              value: categorie,
+              items: ["Édition", "Communication", "Identité visuelle"],
+              order: 1,
+            },
+            titre: {
+              type: "input",
+              value: title,
+              order: 2,
+            },
+            vignette: {
+              type: "image",
+              multiple: false,
+              value: [image],
+              order: 3,
+            },
+            image_HD: {
+              type: "image",
+              multiple: false,
+              value: opened ? [opened] : [],
+              order: 4,
+            },
+          },
+        };
+      });
+    },
+    removeForm(form) {
+      form.dom.remove();
+      return [form.dom.getAttribute("data-sabo-id")];
+    },
+    addForm(form) {
+      const el = document.createElement("div");
+      document.querySelector(".grid-rea").prepend(el);
+      el.outerHTML = `
+      <div class="grid-element">
+        <img src="" />
+        <div class="overlay">
+          <h3></h3>
+          <div class="divider"></div>
+          <div class="categorie"></div>
+        </div>
+        <div class="opened">
+          <div class="close">X</div>
+        </div>
+      </div>
+      `;
+      form.dom = document.querySelectorAll(".grid-rea .grid-element")[0];
+      grid.appended(form.dom);
+      grid.layout();
+      return [form.dom];
+    },
+    updateField(form, key, value) {
+      const dom = form.dom;
+      const categories = {
+        Édition: "ed",
+        Communication: "co",
+        "Identité visuelle": "id",
+      };
+
+      switch (key) {
+        case "titre":
+          dom.querySelector("h3").innerHTML = value;
+          return [dom.querySelector("h3").getAttribute("data-sabo-id")];
+
+        case "vignette":
+          dom.querySelector("img").src = value;
+          return [dom.querySelector("img").getAttribute("data-sabo-id")];
+
+        case "image_HD":
+          dom.querySelector(
+            ".opened"
+          ).style.backgroundImage = `url("${value}")`;
+          return [dom.querySelector(".opened").getAttribute("data-sabo-id")];
+
+        case "categorie":
+          dom.querySelector(".categorie").innerHTML = value;
+          dom.className = `grid-element ${categories[value]}`;
+          return [dom.getAttribute("data-sabo-id")];
+      }
+    },
+  },
+];
