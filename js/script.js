@@ -68,6 +68,20 @@ const observerFixMenuPainting = new IntersectionObserver(
   }
 );
 
+const manageReaOpening = (dom) =>
+  dom.addEventListener(
+    "click",
+    ({ currentTarget }) => {
+      currentTarget.classList.add("activated");
+    },
+    { capture: true }
+  );
+
+const manageReaClosing = (dom) =>
+  dom.addEventListener("click", ({ currentTarget }) => {
+    currentTarget.parentElement.parentElement.classList.remove("activated");
+  });
+
 const initObservers = () => {
   observerCountsUp.observe(document.querySelector("#n1"));
   observerFixMenuPainting.observe(document.querySelector("section#accueil"));
@@ -78,7 +92,7 @@ const initObservers = () => {
 
 let grid;
 const initRealisations = () => {
-  grid = new Isotope(".grid-rea", {
+  window.grid = grid = new Isotope(".grid-rea", {
     itemSelector: ".grid-element",
     layoutMode: "fitRows",
     stagger: 100,
@@ -98,21 +112,8 @@ const initRealisations = () => {
     });
   });
 
-  document.querySelectorAll(".grid-element").forEach((_) =>
-    _.addEventListener(
-      "click",
-      ({ currentTarget }) => {
-        currentTarget.classList.add("activated");
-      },
-      { capture: true }
-    )
-  );
-
-  document.querySelectorAll(".opened .close").forEach((_) =>
-    _.addEventListener("click", ({ currentTarget }) => {
-      currentTarget.parentElement.parentElement.classList.remove("activated");
-    })
-  );
+  document.querySelectorAll(".grid-element").forEach(manageReaOpening);
+  document.querySelectorAll(".opened .close").forEach(manageReaClosing);
 };
 
 addEventListener("load", () => {
@@ -212,23 +213,30 @@ window.sabo_plugins = [
           <div class="divider"></div>
           <div class="categorie"></div>
         </div>
-        <div class="opened">
-          <div class="close">X</div>
-        </div>
       </div>
       `;
       form.dom = document.querySelectorAll(".grid-rea .grid-element")[0];
-      grid.appended(form.dom);
+      manageReaOpening(form.dom);
+      grid.prepended(form.dom);
       grid.layout();
       return [form.dom];
     },
     updateField(form, key, value) {
+      /**
+       * @type HTMLElement
+       */
       const dom = form.dom;
+      dom.classList.remove("activated");
       const categories = {
         Édition: "ed",
         Communication: "co",
         "Identité visuelle": "id",
       };
+      const arrange = () =>
+        grid.arrange({
+          filter: ".init",
+          transitionDuration: 0,
+        });
 
       switch (key) {
         case "titre":
@@ -240,14 +248,48 @@ window.sabo_plugins = [
           return [dom.querySelector("img").getAttribute("data-sabo-id")];
 
         case "image_HD":
-          dom.querySelector(
-            ".opened"
-          ).style.backgroundImage = `url("${value}")`;
-          return [dom.querySelector(".opened").getAttribute("data-sabo-id")];
+          let opened = dom.querySelector(".opened");
+          let id;
+          if (value) {
+            if (!opened) {
+              dom.innerHTML += `
+            <div class="opened">
+              <div class="close">X</div>
+            </div>
+            `;
+              opened = dom.querySelector(".opened");
+              manageReaClosing(opened.querySelector(".close"));
+              id = dom.getAttribute("data-sabo-id");
+            } else {
+              id = opened.getAttribute("data-sabo-id");
+            }
+
+            opened.style.backgroundImage = `url("${value}")`;
+          } else if (opened) {
+            opened.remove();
+            id = opened.getAttribute("data-sabo-id");
+          }
+
+          return id ? [id] : [];
 
         case "categorie":
           dom.querySelector(".categorie").innerHTML = value;
-          dom.className = `grid-element ${categories[value]}`;
+          dom.classList.forEach(
+            (_) =>
+              !["grid-element", "init"].includes(_) && dom.classList.remove(_)
+          );
+          dom.classList.add(categories[value]);
+          return [dom.getAttribute("data-sabo-id")];
+
+        case "accueil":
+          if (value) {
+            dom.classList.add("init");
+          } else {
+            dom.classList.remove("init");
+          }
+
+          setTimeout(arrange, 100);
+          arrange();
           return [dom.getAttribute("data-sabo-id")];
       }
     },
